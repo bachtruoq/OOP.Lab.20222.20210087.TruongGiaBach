@@ -2,7 +2,7 @@ package hust.soict.dsai.aims.media;
 
 import java.util.Comparator;
 
-public class Media {
+public abstract class Media {
 	public Media(String title, String category, float cost) {
 		this.id = ++nbMedia;
 		this.title = title;
