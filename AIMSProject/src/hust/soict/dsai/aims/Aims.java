@@ -142,7 +142,7 @@ public class Aims {
 	public static void updateStore2() {
 		System.out.print("Enter the title of the media:");
 		String title = input.nextLine();
-		store.removeMedia(new Media(title));
+		store.removeMedia(new DigitalVideoDisc(title));
 		updateStore();
 	}
 	
@@ -351,7 +351,7 @@ public class Aims {
 	public static void cartMenu3() {
 		System.out.print("Enter the title of the media to remove: ");
 		String title = input.nextLine();
-		cart.removeMedia(new Media(title));
+		cart.removeMedia(new DigitalVideoDisc(title));
 		cartMenu();
 	}
 	public static void cartMenu4() {
