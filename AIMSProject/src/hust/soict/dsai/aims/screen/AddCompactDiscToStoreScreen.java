@@ -23,7 +23,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
     private JTextField artist;
     private JTextField tracktitle;
     private JTextField tracklength;
-    private ArrayList<Track> addtracklist;
+    private ArrayList<Track> addtracklist = new ArrayList<Track>();
     
     JPanel createNorth() {
 		JPanel north = new JPanel();
@@ -385,7 +385,9 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
                 String addtracktitle = tracktitle.getText();
             	int addtracklength = 0;
             	try {
-            		addtracklength = Integer.parseInt(tracklength.getText());
+            		if (!tracklength.getText().isEmpty()) {
+                		addtracklength = Integer.parseInt(tracklength.getText());            			
+            		}
             	} catch (Exception ex) {
             		JDialog d = new JDialog();
                     d.setLayout(new FlowLayout());

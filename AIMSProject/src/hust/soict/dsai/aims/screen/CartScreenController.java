@@ -18,16 +18,19 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 
 import java.awt.Window;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
+import javafx.collections.transformation.FilteredList;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -66,6 +69,18 @@ public class CartScreenController {
 	private Label totalcost;
 	
 	@FXML
+	private TextField tfFilter;
+	
+	@FXML
+	private RadioButton radioBtnFilterId;
+	
+	@FXML
+	private RadioButton radioBtnFilterTitle;
+	
+	private FilteredList<Media> filteredMediaList;
+	private String filterOption;
+	
+	@FXML
 	private void initialize() {
 		colMediaTitle.setCellValueFactory(
 				new PropertyValueFactory<Media, String>("title"));
@@ -73,7 +88,9 @@ public class CartScreenController {
 				new PropertyValueFactory<Media, String>("category"));
 		colMediaCost.setCellValueFactory(
 				new PropertyValueFactory<Media, Float>("cost"));
-		tblMedia.setItems(this.cart.getItemsOrdered());
+		filterOption = radioBtnFilterId.getText();
+		filteredMediaList = new FilteredList<>(this.cart.getItemsOrdered(), media -> true);
+		tblMedia.setItems(filteredMediaList);
 		
 		btnPlay.setVisible(false);
 		btnRemove.setVisible(false);
@@ -91,6 +108,12 @@ public class CartScreenController {
 				}
 			);
 		totalcost.setText(cart.totalCost()+"$");
+		tfFilter.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue< ? extends String> observable, String oldValue, String newValue) {
+				showFilteredMedia(newValue);
+			}
+		});
 	}
 	
 	void updateButtonBar(Media media) {
@@ -101,6 +124,31 @@ public class CartScreenController {
 		else {
 			btnPlay.setVisible(false);
 		}
+	}
+	
+	void showFilteredMedia(String newValue) {
+		filteredMediaList.setPredicate(media -> {
+	        if (newValue == null || newValue.isEmpty()) {
+	            return true;
+	        }
+	        
+	        String filterText = newValue.toLowerCase();
+	        String mediaString;
+	        if (filterOption.equals(radioBtnFilterId.getText())) {
+		        mediaString = ("" + media.getId()).toLowerCase();
+	        }
+	        else {
+	        	mediaString = media.getTitle().toLowerCase();
+	        }
+
+	        return mediaString.contains(filterText);
+	    });
+		tblMedia.setItems(filteredMediaList);
+	}
+	
+	@FXML
+	void radioBtnOption(ActionEvent event) {
+		filterOption = ((RadioButton)event.getSource()).getText();
 	}
 	
 	@FXML
@@ -122,15 +170,18 @@ public class CartScreenController {
 	
 	@FXML
 	void btnPlayPressed(ActionEvent event) throws PlayerException {
-		Dialog<String> mediaplay = new Dialog<>();
-		Media media = tblMedia.getSelectionModel().getSelectedItem();
-		mediaplay.setTitle(media.toString());
-		mediaplay.setContentText("Currently Playing...");
-		ButtonType done = new ButtonType("Cancel", ButtonData.OK_DONE);
-		mediaplay.getDialogPane().getButtonTypes().add(done);
-		mediaplay.show();
-		if (media instanceof Playable) {
+		try {
+			Media media = tblMedia.getSelectionModel().getSelectedItem();
 			((Playable) media).play();
+			Dialog<String> mediaplay = new Dialog<>();
+			mediaplay.setTitle(media.toString());
+			mediaplay.setWidth(1000);
+			mediaplay.setContentText("Currently Playing...");
+			ButtonType done = new ButtonType("Cancel", ButtonData.OK_DONE);
+			mediaplay.getDialogPane().getButtonTypes().add(done);
+			mediaplay.show();			
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

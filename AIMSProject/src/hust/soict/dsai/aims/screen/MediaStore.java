@@ -40,27 +40,26 @@ public class MediaStore extends JPanel{
 			playbutton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-            		JDialog d = new JDialog();
-                    d.setLayout(new FlowLayout());
-                    d.setTitle(media.toString());
-                    try {
+					try {
 						((Playable)media).play();
-					} catch (PlayerException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+	            		JDialog d = new JDialog();
+	                    d.setLayout(new FlowLayout());
+	                    d.setTitle(media.toString());
+	                    JLabel l = new JLabel("Currently Playing...");
+	                    d.add(l);
+	                    JButton b = new JButton("Cancel");  
+	                    b.addActionListener (new ActionListener(){
+	                        public void actionPerformed(ActionEvent e)  
+	                        {  
+	                            d.dispose();  
+	                        }  
+	                    });
+	                    d.add(b);   
+	                    d.setSize(1000, 100);
+	                    d.setVisible(true);
+					}catch(PlayerException ex) {
+						ex.printStackTrace();
 					}
-                    JLabel l = new JLabel("Currently Playing...");
-                    d.add(l);
-                    JButton b = new JButton("Cancel");  
-                    b.addActionListener (new ActionListener(){
-                        public void actionPerformed(ActionEvent e)  
-                        {  
-                            d.dispose();  
-                        }  
-                    });
-                    d.add(b);   
-                    d.setSize(100, 100);
-                    d.setVisible(true);
 				}
 			});
 		}

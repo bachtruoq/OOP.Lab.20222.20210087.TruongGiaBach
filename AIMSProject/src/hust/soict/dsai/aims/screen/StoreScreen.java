@@ -131,7 +131,7 @@ public class StoreScreen extends JFrame{
 		center.setLayout(new GridLayout(3, 3, 2, 2));
 		
 		ArrayList<Media> mediaInStore = store.getItemsInStore();
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < store.getItemsInStore().size(); i++) {
 			MediaStore cell = new MediaStore(mediaInStore.get(i));
 			cell.getAddtocart().addActionListener(new ActionListener(){
 				@Override
