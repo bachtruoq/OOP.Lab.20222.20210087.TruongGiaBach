@@ -145,11 +145,15 @@ public class AddDigitalVideoDiscToStoreScreen extends AddItemToStoreScreen {
                 	title.setText("");
                 	category.setText("");
                 	cost.setText("");
+                	length.setText("");
+                	director.setText("");
                     return;
             	}
             	int addlength = 0;
             	try {
-            		addlength = Integer.parseInt(length.getText());
+            		if (!length.getText().isEmpty()) {
+                		addlength = Integer.parseInt(length.getText());            			
+            		}
             	} catch (Exception ex) {
             		JDialog d = new JDialog();
                     d.setLayout(new FlowLayout());
@@ -181,14 +185,12 @@ public class AddDigitalVideoDiscToStoreScreen extends AddItemToStoreScreen {
             	director.setText("");            	
             	DigitalVideoDisc addDVD = null;
 				try {
-					addDVD = new DigitalVideoDisc(addtitle, addcategory, addcost);
+					addDVD = new DigitalVideoDisc(addtitle, addcategory, adddirector, addlength, addcost);
+	            	store.addMedia(addDVD);
 				} catch (DataConstraintsException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-            	addDVD.setLength(addlength);
-            	addDVD.setDirector(adddirector);
-            	store.addMedia(addDVD);
             }
         });
 

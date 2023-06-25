@@ -37,9 +37,6 @@ public class DigitalVideoDisc extends Disc implements Playable{
             d.add(info);
             JLabel m = new JLabel(e.getMessage());
             d.add(m);
-            for (StackTraceElement element : e.getStackTrace()) {
-                d.add(new JLabel(element.toString()));
-            }
             JButton b = new JButton("OK");  
             b.addActionListener (new ActionListener(){
                 public void actionPerformed(ActionEvent e)  
@@ -52,7 +49,7 @@ public class DigitalVideoDisc extends Disc implements Playable{
             p.add(b);
             d.add(Box.createVerticalGlue());
             d.add(p);
-            d.setSize(500, 200);
+            d.setSize(500, 500);
             d.setVisible(true);
             throw e;
 		}

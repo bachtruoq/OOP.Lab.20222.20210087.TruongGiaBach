@@ -385,38 +385,23 @@ public class Aims {
 	}
 	
 	public static void main(String[] args) throws DataConstraintsException, LimitExceededException, PlayerException {
-//		try {
-////			(new DigitalVideoDisc("X", "Y", "Z", -4, 2)).play();
-//			List<Media> mediae = new ArrayList<Media>();
-//			CompactDisc cd = new CompactDisc("abc", "ct", "Nguyen Van A", 3, "VG", 1.23f);
-//			DigitalVideoDisc dvd = new DigitalVideoDisc("X");
-//			Book book = new Book("sh", "nf", 10.0f);
-//			mediae.add(cd);
-//			mediae.add(dvd);
-//			mediae.add(book);
-//			
-//			for(Media m: mediae) {
-//				System.out.println(m.toString());
-//			}
-//			
-//			showMenu();			
-//		} catch (Exception e){
-//			throw e;
-//		}
+		
+		DigitalVideoDisc dvd = new DigitalVideoDisc("The Dark Knight", "Action", "Christopher Nolan", 90, 2.5f);
+		CompactDisc cd = new CompactDisc("Forrest Gump", "Drama", "Robert Zemeckis", 60, "Winston Groom", 3);
+		Track track1 = new Track("Shape Of You", 3);
+		Track track2 = new Track("My Heart Will Go On", -2);
+		cd.addTrack(track1);
+		cd.addTrack(track2);
+		Book book = new Book("Sherlock Holmes", "Thriller", 10);
 		
 		Store mystore = new Store();
-		for (int i = 0; i < 9; i++) {
-			mystore.addMedia(new DigitalVideoDisc(""+i));	
-		}	
+		mystore.addMedia(dvd);
+		mystore.addMedia(cd);
+		mystore.addMedia(book);
+//		for (int i = 0; i < 12; i++) {
+//			mystore.addMedia(new DigitalVideoDisc(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(1000)));	
+//		}
 		
-		Cart mycart = new Cart();
-		for (int i = 0; i < 9; i++) {
-			mycart.addMedia(new DigitalVideoDisc(""+i, ""+i+i, new Random().nextInt(1000)));			
-		}
-		mycart.addMedia(new Book("abc", "x", 0));	
-//		new StoreScreen(mystore, mycart);
-//		new CartScreen(mystore, mycart);
-		
-		new StoreScreen(mystore, mycart);
+		new StoreScreen(mystore);
 	}
 }
