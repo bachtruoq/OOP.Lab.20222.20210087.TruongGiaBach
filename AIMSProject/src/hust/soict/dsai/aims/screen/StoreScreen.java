@@ -1,13 +1,15 @@
 package hust.soict.dsai.aims.screen;
 
-import hust.soict.dsai.aims.store.*;
+import java.util.ArrayList;
+
+import hust.soict.dsai.aims.store.Store;
+import hust.soict.dsai.aims.cart.Cart;
 import hust.soict.dsai.aims.media.*;
-import hust.soict.dsai.aims.cart.*;
-import hust.soict.dsai.aims.exception.LimitExceededException;
+import hust.soict.dsai.aims.exception.LimitException;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+
 import javax.swing.*;
 
 import javafx.application.Platform;
@@ -17,10 +19,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.VBox;
 
-public class StoreScreen extends JFrame{
+public class StoreScreen extends JFrame {
 	private Store store;
-	private Cart cart = new Cart();    
-    
+	private Cart cart;
+	
 	JPanel createNorth() {
 		JPanel north = new JPanel();
 		north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
@@ -97,7 +99,6 @@ public class StoreScreen extends JFrame{
 	}
 	
 	JPanel createHeader() {
-		
 		JPanel header = new JPanel();
 		header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
 		
@@ -105,41 +106,40 @@ public class StoreScreen extends JFrame{
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 50));
 		title.setForeground(Color.CYAN);
 		
-		JButton viewcart = new JButton("View cart");
-		viewcart.setPreferredSize(new Dimension(100, 50));
-		viewcart.setMaximumSize(new Dimension(100, 50));
-		viewcart.addActionListener(new ActionListener() {
+		JButton viewCart = new JButton("View cart");
+		viewCart.setPreferredSize(new Dimension(100, 50));
+		viewCart.setMaximumSize(new Dimension(100, 50));
+		viewCart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				dispose();	
 				new CartScreen(store, cart);
-				dispose();				
+//				dispose();				
 			}			
 		});
 		
 		header.add(Box.createRigidArea(new Dimension(10, 10)));
 		header.add(title);
 		header.add(Box.createHorizontalGlue());
-		header.add(viewcart);
+		header.add(viewCart);
 		header.add(Box.createRigidArea(new Dimension(10, 10)));
 		
 		return header;
 	}
 	
 	JPanel createCenter() {
-		
 		JPanel center = new JPanel();
-		center.setLayout(new GridLayout(3, 3, 2, 2));
+		center.setLayout(new GridLayout(3, 3,2, 2));
 		
 		ArrayList<Media> mediaInStore = store.getItemsInStore();
-		for (int i = 0; i < store.getItemsInStore().size(); i++) {
+		for (int i=0; i<9; i++) {
 			MediaStore cell = new MediaStore(mediaInStore.get(i));
-			cell.getAddtocart().addActionListener(new ActionListener(){
+			cell.getAddToCart().addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
 						cart.addMedia(cell.getMedia());
-					} catch (LimitExceededException e1) {
-						// TODO Auto-generated catch block
+					} catch (LimitException e1) {
 						e1.printStackTrace();
 					}
 				}				
@@ -148,19 +148,6 @@ public class StoreScreen extends JFrame{
 		}
 		
 		return center;
-	}
-	
-	public StoreScreen(Store store) {
-		this.store = store;
-		Container cp = getContentPane();
-		cp.setLayout(new BorderLayout());
-		
-		cp.add(createNorth(), BorderLayout.NORTH);
-		cp.add(createCenter(), BorderLayout.CENTER);
-		
-		setVisible(true);
-		setTitle("Store");
-		setSize(1024, 768);
 	}
 	
 	public StoreScreen(Store store, Cart cart) {
@@ -175,6 +162,6 @@ public class StoreScreen extends JFrame{
 		setVisible(true);
 		setTitle("Store");
 		setSize(1024, 768);
-		
 	}
+
 }

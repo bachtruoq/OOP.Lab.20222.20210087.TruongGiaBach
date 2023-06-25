@@ -1,21 +1,23 @@
 package hust.soict.dsai.aims.screen;
 
-import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import hust.soict.dsai.aims.cart.*;
-import hust.soict.dsai.aims.store.*;
-import javafx.application.Platform;
+import java.io.IOException;
+
+import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.store.Store;
+
 import javafx.embed.swing.JFXPanel;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-public class CartScreen extends JFrame{
-	private Store store;
+public class CartScreen extends JFrame {
+
 	private Cart cart;
+	private Store store;
 	
 	public CartScreen(Store store, Cart cart) {
 		super();
@@ -39,6 +41,6 @@ public class CartScreen extends JFrame{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		});
-	}
+		});	}
+	
 }

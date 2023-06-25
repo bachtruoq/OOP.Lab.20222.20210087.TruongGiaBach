@@ -1,15 +1,18 @@
 package hust.soict.dsai.aims.screen;
 
+import hust.soict.dsai.aims.media.*;
+import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.store.Store;
+import hust.soict.dsai.aims.exception.DataConstraintsException;
+
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 
-import hust.soict.dsai.aims.cart.*;
-import hust.soict.dsai.aims.exception.DataConstraintsException;
-import hust.soict.dsai.aims.media.*;
-import hust.soict.dsai.aims.store.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AddBookToStoreScreen extends AddItemToStoreScreen{
 	private JTextField title;
@@ -25,7 +28,7 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
 		return north;
 	}
 	
-	JMenuBar createMenuBar() {
+    JMenuBar createMenuBar() {
 		Store store = this.getStore();
 		Cart cart = this.getCart();
 		
@@ -91,21 +94,21 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
 		
 		return menuBar;
 	}
-	
+    
 	JPanel createHeader() {
-		
-		JPanel header = new JPanel();
-		header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
-		
-		JLabel title = new JLabel("ADD BOOK");
-		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 50));
-		title.setForeground(Color.RED);
-		
-		header.add(Box.createRigidArea(new Dimension(10, 10)));
-		header.add(title);
-		header.add(Box.createHorizontalGlue());
-		
-		return header;
+			
+			JPanel header = new JPanel();
+			header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
+			
+			JLabel title = new JLabel("ADD BOOK");
+			title.setFont(new Font(title.getFont().getName(),Font.PLAIN, 50));
+			title.setForeground(Color.RED);
+			
+			header.add(Box.createRigidArea(new Dimension(10, 10)));
+			header.add(title);
+			header.add(Box.createHorizontalGlue());
+			
+			return header;
 	}
 	
 	JPanel createEast() {
@@ -127,7 +130,7 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
             		JDialog d = new JDialog();
                     d.setLayout(new FlowLayout());
                     d.setTitle("Error");
-                    JLabel l = new JLabel("Invalid cost.");
+                    JLabel l = new JLabel("Invalid cost");
                     d.add(l);
                     JButton b = new JButton("OK");  
                     b.addActionListener (new ActionListener(){
@@ -145,7 +148,7 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
                 	authors.setText("");
                     return;
             	}
-            	ArrayList<String> addauthors = new ArrayList<>(Arrays.asList(authors.getText().split("\\r?\\n")));
+            	ArrayList<String> addAuthors = new ArrayList<>(Arrays.asList(authors.getText().split("\\r?\\n")));
             	title.setText("");
             	category.setText("");
             	cost.setText("");
@@ -157,7 +160,7 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-            	addbook.setAuthors(addauthors);
+            	addbook.setAuthors(addAuthors);
             	store.addMedia(addbook);
             }
         });
@@ -168,25 +171,22 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
         rightPanel.setBorder(BorderFactory.createEmptyBorder(50, 30, 0, 30));
         
         return rightPanel;
+        
 	}
-    
+	
 	JPanel createCenter() {
 		JPanel centerPanel = new JPanel();
-        centerPanel.setPreferredSize(new Dimension(1000, 400));
-//        centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		centerPanel.setPreferredSize(new Dimension(1000, 400));
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
         JLabel compulsoryLabel = new JLabel("*compulsory");
         compulsoryLabel.setFont(new Font(compulsoryLabel.getFont().getName(), Font.PLAIN, 24));
         compulsoryLabel.setForeground(Color.RED);
-//        compulsoryLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-
         centerPanel.add(compulsoryLabel);
 
         JPanel fieldsPanel = new JPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.X_AXIS));
-//        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-
+        
         JPanel titlePanel = new JPanel();
         titlePanel.setPreferredSize(new Dimension(200, 100));
         titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
@@ -196,7 +196,6 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
         titleLabel.setFont(new Font(titleLabel.getFont().getName(), Font.PLAIN, 24));
 
         title = new JTextField();
-
         titlePanel.add(titleLabel);
         titlePanel.add(title);
 
@@ -235,14 +234,11 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
         JLabel optionalLabel = new JLabel("*optional");
         optionalLabel.setFont(new Font(optionalLabel.getFont().getName(), Font.PLAIN, 24));
         optionalLabel.setForeground(Color.RED);
-//        optionalLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
-
+        
         centerPanel.add(optionalLabel);
 
         JPanel optionalFieldsPanel = new JPanel();
         optionalFieldsPanel.setLayout(new BoxLayout(optionalFieldsPanel, BoxLayout.X_AXIS));
-//        optionalFieldsPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-
         JPanel authorsPanel = new JPanel();
         authorsPanel.setPreferredSize(new Dimension(200, 100));
         authorsPanel.setLayout(new BoxLayout(authorsPanel, BoxLayout.Y_AXIS));
@@ -281,5 +277,6 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
         add(createEast(), BorderLayout.EAST);
 
         setVisible(true);
-    }
+	}
+	
 }

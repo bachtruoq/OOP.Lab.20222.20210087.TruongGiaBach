@@ -1,20 +1,20 @@
 package hust.soict.dsai.aims.screen;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import hust.soict.dsai.aims.media.*;
+import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.store.Store;
+import hust.soict.dsai.aims.exception.DataConstraintsException;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import hust.soict.dsai.aims.cart.Cart;
-import hust.soict.dsai.aims.exception.DataConstraintsException;
-import hust.soict.dsai.aims.media.*;
-import hust.soict.dsai.aims.store.Store;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-
-public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {	
+public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen{
 	private JTextField title;
     private JTextField category;
     private JTextField cost;
@@ -23,7 +23,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
     private JTextField artist;
     private JTextField tracktitle;
     private JTextField tracklength;
-    private ArrayList<Track> addtracklist = new ArrayList<Track>();
+    private ArrayList<Track> addTrackList;
     
     JPanel createNorth() {
 		JPanel north = new JPanel();
@@ -33,7 +33,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
 		return north;
 	}
 	
-	JMenuBar createMenuBar() {
+    JMenuBar createMenuBar() {
 		Store store = this.getStore();
 		Cart cart = this.getCart();
 		
@@ -99,21 +99,21 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
 		
 		return menuBar;
 	}
-	
+    
 	JPanel createHeader() {
-		
-		JPanel header = new JPanel();
-		header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
-		
-		JLabel title = new JLabel("ADD CD");
-		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 50));
-		title.setForeground(Color.RED);
-		
-		header.add(Box.createRigidArea(new Dimension(10, 10)));
-		header.add(title);
-		header.add(Box.createHorizontalGlue());
-		
-		return header;
+			
+			JPanel header = new JPanel();
+			header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
+			
+			JLabel title = new JLabel("ADD CD");
+			title.setFont(new Font(title.getFont().getName(),Font.PLAIN, 50));
+			title.setForeground(Color.RED);
+			
+			header.add(Box.createRigidArea(new Dimension(10, 10)));
+			header.add(title);
+			header.add(Box.createHorizontalGlue());
+			
+			return header;
 	}
 	
 	JPanel createEast() {
@@ -126,16 +126,16 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Add to store button action
-            	String addtitle = title.getText();
-            	String addcategory = category.getText();
-            	Float addcost = 0.0f;
+            	String addTitle = title.getText();
+            	String addCategory = category.getText();
+            	Float addCost = 0.0f;
             	try {
-            		addcost = Float.parseFloat(cost.getText());
+            		addCost = Float.parseFloat(cost.getText());
             	} catch (Exception ex) {
             		JDialog d = new JDialog();
                     d.setLayout(new FlowLayout());
                     d.setTitle("Error");
-                    JLabel l = new JLabel("Invalid cost.");
+                    JLabel l = new JLabel("Invalid cost");
                     d.add(l);
                     JButton b = new JButton("OK");  
                     b.addActionListener (new ActionListener(){
@@ -150,17 +150,17 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
                 	title.setText("");
                 	category.setText("");
                 	cost.setText("");
-                	length.setText("");
                 	director.setText("");
+                	length.setText("");
                 	artist.setText("");
                 	tracktitle.setText("");
                 	tracklength.setText("");
-                	addtracklist.clear();
+                	addTrackList.clear();
                     return;
             	}
-            	int addlength = 0;
+            	int addLength = 0;
             	try {
-            		addlength = Integer.parseInt(length.getText());
+            		addLength = Integer.parseInt(length.getText());
             	} catch (Exception ex) {
             		JDialog d = new JDialog();
                     d.setLayout(new FlowLayout());
@@ -185,22 +185,21 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
                 	artist.setText("");
                 	tracktitle.setText("");
                 	tracklength.setText("");
-                	addtracklist.clear();
+                	addTrackList.clear();
                     return;
             	}
-            	String adddirector = director.getText();
-            	String addartist = artist.getText();
+            	String addDirector = director.getText();
+            	String addArtist = artist.getText();
             	CompactDisc addCD = null;
 				try {
-					addCD = new CompactDisc(addtitle, addcategory, addcost);
+					addCD = new CompactDisc(addTitle, addCategory, addCost);
 				} catch (DataConstraintsException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-            	addCD.setLength(addlength);
-            	addCD.setDirector(adddirector);
-            	addCD.setArtist(addartist);
-            	addCD.setTracks(addtracklist);
+            	addCD.setLength(addLength);
+            	addCD.setDirector(addDirector);
+            	addCD.setArtist(addArtist);
+            	addCD.setTracks(addTrackList);
             	title.setText("");
             	category.setText("");
             	cost.setText("");
@@ -209,7 +208,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
             	artist.setText("");
             	tracktitle.setText("");
             	tracklength.setText("");
-            	addtracklist.clear();
+            	addTrackList.clear();
             	store.addMedia(addCD);
             }
         });
@@ -220,25 +219,22 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
         rightPanel.setBorder(BorderFactory.createEmptyBorder(50, 30, 0, 30));
         
         return rightPanel;
+        
 	}
-    
+	
 	JPanel createCenter() {
 		JPanel centerPanel = new JPanel();
-        centerPanel.setPreferredSize(new Dimension(1000, 400));
-//        centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		centerPanel.setPreferredSize(new Dimension(1000, 400));
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
         JLabel compulsoryLabel = new JLabel("*compulsory");
         compulsoryLabel.setFont(new Font(compulsoryLabel.getFont().getName(), Font.PLAIN, 24));
         compulsoryLabel.setForeground(Color.RED);
-//        compulsoryLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-
         centerPanel.add(compulsoryLabel);
 
         JPanel fieldsPanel = new JPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.X_AXIS));
-//        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-
+        
         JPanel titlePanel = new JPanel();
         titlePanel.setPreferredSize(new Dimension(200, 100));
         titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
@@ -248,7 +244,6 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
         titleLabel.setFont(new Font(titleLabel.getFont().getName(), Font.PLAIN, 24));
 
         title = new JTextField();
-
         titlePanel.add(titleLabel);
         titlePanel.add(title);
 
@@ -287,24 +282,22 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
         JLabel optionalLabel = new JLabel("*optional");
         optionalLabel.setFont(new Font(optionalLabel.getFont().getName(), Font.PLAIN, 24));
         optionalLabel.setForeground(Color.RED);
-//        optionalLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
-
+        
         centerPanel.add(optionalLabel);
 
         JPanel optionalFieldsPanel = new JPanel();
         optionalFieldsPanel.setLayout(new BoxLayout(optionalFieldsPanel, BoxLayout.X_AXIS));
-//        optionalFieldsPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-
+        
         JPanel lengthPanel = new JPanel();
         lengthPanel.setPreferredSize(new Dimension(200, 100));
         lengthPanel.setLayout(new BoxLayout(lengthPanel, BoxLayout.Y_AXIS));
         lengthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-
+        
         JLabel lengthLabel = new JLabel("Length");
         lengthLabel.setFont(new Font(lengthLabel.getFont().getName(), Font.PLAIN, 24));
-
+        
+        
         length = new JTextField();
-
         lengthPanel.add(lengthLabel);
         lengthPanel.add(length);
         
@@ -385,9 +378,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
                 String addtracktitle = tracktitle.getText();
             	int addtracklength = 0;
             	try {
-            		if (!tracklength.getText().isEmpty()) {
-                		addtracklength = Integer.parseInt(tracklength.getText());            			
-            		}
+            		addtracklength = Integer.parseInt(tracklength.getText());
             	} catch (Exception ex) {
             		JDialog d = new JDialog();
                     d.setLayout(new FlowLayout());
@@ -408,7 +399,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
                 	tracklength.setText("");
                     return;
             	}
-            	addtracklist.add(new Track(addtracktitle, addtracklength));
+            	addTrackList.add(new Track(addtracktitle, addtracklength));
             	tracktitle.setText("");
             	tracklength.setText("");
             }
@@ -417,13 +408,11 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
         JPanel addTrackButtonPanel = new JPanel();
         addTrackButtonPanel.setLayout(new BoxLayout(addTrackButtonPanel, BoxLayout.Y_AXIS));
         addTrackButtonPanel.add(addTrackButton);
-//        addTrackButtonPanel.setBorder(BorderFactory.createEmptyBorder(50, 30, 0, 30));
-
+        
         trackFieldsPanel.add(tracktitlePanel);
         trackFieldsPanel.add(tracklengthPanel);
         trackFieldsPanel.add(addTrackButtonPanel);
         
-//        centerPanel.add(Box.createRigidArea(new Dimension(200, 200)));
         centerPanel.add(trackFieldsPanel);
         
         return centerPanel;
@@ -442,5 +431,6 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
         add(createEast(), BorderLayout.EAST);
 
         setVisible(true);
-    }
+	}
+	
 }
