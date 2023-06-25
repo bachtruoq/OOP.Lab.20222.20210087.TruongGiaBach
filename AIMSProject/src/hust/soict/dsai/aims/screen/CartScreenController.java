@@ -3,6 +3,7 @@ package hust.soict.dsai.aims.screen;
 import hust.soict.dsai.aims.media.*;
 import hust.soict.dsai.aims.store.*;
 import hust.soict.dsai.aims.cart.*;
+import hust.soict.dsai.aims.exception.PlayerException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
@@ -120,7 +121,7 @@ public class CartScreenController {
 	}
 	
 	@FXML
-	void btnPlayPressed(ActionEvent event) {
+	void btnPlayPressed(ActionEvent event) throws PlayerException {
 		Dialog<String> mediaplay = new Dialog<>();
 		Media media = tblMedia.getSelectionModel().getSelectedItem();
 		mediaplay.setTitle(media.toString());

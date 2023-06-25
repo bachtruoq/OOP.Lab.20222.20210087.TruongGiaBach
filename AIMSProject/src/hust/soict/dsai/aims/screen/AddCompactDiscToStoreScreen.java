@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.DataConstraintsException;
 import hust.soict.dsai.aims.media.*;
 import hust.soict.dsai.aims.store.Store;
 
@@ -120,7 +121,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
         addToStoreButton.setFont(new Font(addToStoreButton.getFont().getName(), Font.PLAIN, 24));
         addToStoreButton.setBackground(Color.RED);
         addToStoreButton.setForeground(Color.WHITE);
-        Cart cart = this.getCart();
+        Store store = this.getStore();
         addToStoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -189,7 +190,13 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
             	}
             	String adddirector = director.getText();
             	String addartist = artist.getText();
-            	CompactDisc addCD = new CompactDisc(addtitle, addcategory, addcost);
+            	CompactDisc addCD = null;
+				try {
+					addCD = new CompactDisc(addtitle, addcategory, addcost);
+				} catch (DataConstraintsException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             	addCD.setLength(addlength);
             	addCD.setDirector(adddirector);
             	addCD.setArtist(addartist);
@@ -203,7 +210,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
             	tracktitle.setText("");
             	tracklength.setText("");
             	addtracklist.clear();
-            	cart.addMedia(addCD);
+            	store.addMedia(addCD);
             }
         });
 

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.*;
 
 import hust.soict.dsai.aims.cart.*;
+import hust.soict.dsai.aims.exception.DataConstraintsException;
 import hust.soict.dsai.aims.media.*;
 import hust.soict.dsai.aims.store.*;
 
@@ -112,7 +113,7 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
         addToStoreButton.setFont(new Font(addToStoreButton.getFont().getName(), Font.PLAIN, 24));
         addToStoreButton.setBackground(Color.RED);
         addToStoreButton.setForeground(Color.WHITE);
-        Cart cart = this.getCart();
+        Store store = this.getStore();
         addToStoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,9 +150,15 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen{
             	category.setText("");
             	cost.setText("");
             	authors.setText("");
-            	Book addbook = new Book(addtitle, addcategory, addcost);
+            	Book addbook = null;
+				try {
+					addbook = new Book(addtitle, addcategory, addcost);
+				} catch (DataConstraintsException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             	addbook.setAuthors(addauthors);
-            	cart.addMedia(addbook);
+            	store.addMedia(addbook);
             }
         });
 

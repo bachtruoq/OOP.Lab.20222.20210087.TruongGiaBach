@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.DataConstraintsException;
 import hust.soict.dsai.aims.media.*;
 import hust.soict.dsai.aims.store.Store;
 
@@ -115,7 +116,7 @@ public class AddDigitalVideoDiscToStoreScreen extends AddItemToStoreScreen {
         addToStoreButton.setFont(new Font(addToStoreButton.getFont().getName(), Font.PLAIN, 24));
         addToStoreButton.setBackground(Color.RED);
         addToStoreButton.setForeground(Color.WHITE);
-        Cart cart = this.getCart();
+        Store store = this.getStore();
         addToStoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -178,10 +179,16 @@ public class AddDigitalVideoDiscToStoreScreen extends AddItemToStoreScreen {
             	cost.setText("");
             	length.setText("");
             	director.setText("");            	
-            	DigitalVideoDisc addDVD = new DigitalVideoDisc(addtitle, addcategory, addcost);
+            	DigitalVideoDisc addDVD = null;
+				try {
+					addDVD = new DigitalVideoDisc(addtitle, addcategory, addcost);
+				} catch (DataConstraintsException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             	addDVD.setLength(addlength);
             	addDVD.setDirector(adddirector);
-            	cart.addMedia(addDVD);
+            	store.addMedia(addDVD);
             }
         });
 

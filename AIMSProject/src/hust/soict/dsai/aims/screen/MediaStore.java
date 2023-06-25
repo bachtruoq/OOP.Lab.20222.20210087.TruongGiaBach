@@ -1,5 +1,6 @@
 package hust.soict.dsai.aims.screen;
 
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -42,7 +43,12 @@ public class MediaStore extends JPanel{
             		JDialog d = new JDialog();
                     d.setLayout(new FlowLayout());
                     d.setTitle(media.toString());
-                    ((Playable)media).play();
+                    try {
+						((Playable)media).play();
+					} catch (PlayerException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                     JLabel l = new JLabel("Currently Playing...");
                     d.add(l);
                     JButton b = new JButton("Cancel");  

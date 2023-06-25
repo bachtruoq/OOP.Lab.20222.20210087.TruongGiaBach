@@ -3,6 +3,8 @@ package hust.soict.dsai.aims.screen;
 import hust.soict.dsai.aims.store.*;
 import hust.soict.dsai.aims.media.*;
 import hust.soict.dsai.aims.cart.*;
+import hust.soict.dsai.aims.exception.LimitExceededException;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -134,7 +136,12 @@ public class StoreScreen extends JFrame{
 			cell.getAddtocart().addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cart.addMedia(cell.getMedia());
+					try {
+						cart.addMedia(cell.getMedia());
+					} catch (LimitExceededException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}				
 			});
 			center.add(cell);

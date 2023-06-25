@@ -1,7 +1,11 @@
 package hust.soict.dsai.aims;
 import hust.soict.dsai.aims.cart.*;
+import hust.soict.dsai.aims.exception.DataConstraintsException;
+import hust.soict.dsai.aims.exception.LimitExceededException;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.*;
 import hust.soict.dsai.aims.store.*; 
+import hust.soict.dsai.aims.screen.*;
 
 import java.util.*;
 
@@ -11,7 +15,7 @@ public class Aims {
 	private static Store store = new Store();
 	private static Scanner input = new Scanner(System.in);
 	
-	public static void showMenu() {
+	public static void showMenu() throws LimitExceededException, PlayerException, DataConstraintsException {
 		System.out.println("AIMS: ");
 		System.out.println("--------------------------------");
 		System.out.println("1. View store");
@@ -40,7 +44,7 @@ public class Aims {
 		}
 	}
 	
-	public static void storeMenu() {
+	public static void storeMenu() throws LimitExceededException, PlayerException, DataConstraintsException {
 		store.print();
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
@@ -74,7 +78,7 @@ public class Aims {
 			showMenu();
 		}
 	}
-	public static void updateStore() {
+	public static void updateStore() throws DataConstraintsException, LimitExceededException, PlayerException {
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
 		System.out.println("1. Add media");
@@ -99,7 +103,7 @@ public class Aims {
 			showMenu();
 		}
 	}
-	public static void updateStore1() {
+	public static void updateStore1() throws DataConstraintsException, LimitExceededException, PlayerException {
 		System.out.print("Enter title of the media: ");
 		String title = input.nextLine();
 		System.out.print("Enter category of the media: ");
@@ -139,14 +143,14 @@ public class Aims {
 			showMenu();
 		}
 	}
-	public static void updateStore2() {
+	public static void updateStore2() throws DataConstraintsException, LimitExceededException, PlayerException {
 		System.out.print("Enter the title of the media:");
 		String title = input.nextLine();
 		store.removeMedia(new DigitalVideoDisc(title));
 		updateStore();
 	}
 	
-	public static void storeMenu1() {
+	public static void storeMenu1() throws LimitExceededException, PlayerException, DataConstraintsException {
 		System.out.println("Enter the title of the media");
 		String title = input.nextLine();
 		for(Media media: store.getItemsInStore()) {
@@ -159,7 +163,7 @@ public class Aims {
 		System.out.println("Media not found");
 		storeMenu();
 	}
-	public static void mediaDetailsMenu(Media media) {
+	public static void mediaDetailsMenu(Media media) throws LimitExceededException, PlayerException, DataConstraintsException {
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
 		System.out.println("1. Add to cart");
@@ -212,7 +216,7 @@ public class Aims {
 		}
 	}
 	
-	public static void storeMenu2() {
+	public static void storeMenu2() throws LimitExceededException, PlayerException, DataConstraintsException {
 		System.out.print("Enter the title of the media: ");
 		String title = input.nextLine();
 		for(Media media: store.getItemsInStore()) {
@@ -225,7 +229,7 @@ public class Aims {
 		System.out.println("Media not found");
 		storeMenu();
 	}
-	public static void storeMenu3() {
+	public static void storeMenu3() throws PlayerException, LimitExceededException, DataConstraintsException {
 		System.out.print("Enter the title of the media: ");
 		String title = input.nextLine();
 		for(Media media: store.getItemsInStore()) {
@@ -249,7 +253,7 @@ public class Aims {
 		storeMenu();
 	}
 	
-	public static void cartMenu() {
+	public static void cartMenu() throws DataConstraintsException, PlayerException, LimitExceededException {
 		cart.print();
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
@@ -289,7 +293,7 @@ public class Aims {
 		}
 	}
 	
-	public static void cartMenu1() {
+	public static void cartMenu1() throws DataConstraintsException, PlayerException, LimitExceededException {
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
 		System.out.println("1. Filter by id");
@@ -320,7 +324,7 @@ public class Aims {
 			cartMenu();
 		}
 	}
-	public static void cartMenu2() {
+	public static void cartMenu2() throws DataConstraintsException, PlayerException, LimitExceededException {
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
 		System.out.println("1. Sort by title");
@@ -348,13 +352,13 @@ public class Aims {
 			cartMenu();
 		}
 	}
-	public static void cartMenu3() {
+	public static void cartMenu3() throws DataConstraintsException, PlayerException, LimitExceededException {
 		System.out.print("Enter the title of the media to remove: ");
 		String title = input.nextLine();
 		cart.removeMedia(new DigitalVideoDisc(title));
 		cartMenu();
 	}
-	public static void cartMenu4() {
+	public static void cartMenu4() throws PlayerException, DataConstraintsException, LimitExceededException {
 		System.out.print("Enter the title of the media to play: ");
 		String title = input.nextLine();
 		for (Media media: store.getItemsInStore()) {
@@ -380,19 +384,39 @@ public class Aims {
 		cartMenu();
 	}
 	
-	public static void main(String[] args) {
-		List<Media> mediae = new ArrayList<Media>();
-		CompactDisc cd = new CompactDisc("abc", "ct", "Nguyen Van A", 3, "VG", 1.23f);
-		DigitalVideoDisc dvd = new DigitalVideoDisc("X");
-		Book book = new Book("sh", "nf", 10.0f);
-		mediae.add(cd);
-		mediae.add(dvd);
-		mediae.add(book);
+	public static void main(String[] args) throws DataConstraintsException, LimitExceededException, PlayerException {
+//		try {
+////			(new DigitalVideoDisc("X", "Y", "Z", -4, 2)).play();
+//			List<Media> mediae = new ArrayList<Media>();
+//			CompactDisc cd = new CompactDisc("abc", "ct", "Nguyen Van A", 3, "VG", 1.23f);
+//			DigitalVideoDisc dvd = new DigitalVideoDisc("X");
+//			Book book = new Book("sh", "nf", 10.0f);
+//			mediae.add(cd);
+//			mediae.add(dvd);
+//			mediae.add(book);
+//			
+//			for(Media m: mediae) {
+//				System.out.println(m.toString());
+//			}
+//			
+//			showMenu();			
+//		} catch (Exception e){
+//			throw e;
+//		}
 		
-		for(Media m: mediae) {
-			System.out.println(m.toString());
+		Store mystore = new Store();
+		for (int i = 0; i < 9; i++) {
+			mystore.addMedia(new DigitalVideoDisc(""+i));	
+		}	
+		
+		Cart mycart = new Cart();
+		for (int i = 0; i < 9; i++) {
+			mycart.addMedia(new DigitalVideoDisc(""+i, ""+i+i, new Random().nextInt(1000)));			
 		}
+		mycart.addMedia(new Book("abc", "x", 0));	
+//		new StoreScreen(mystore, mycart);
+//		new CartScreen(mystore, mycart);
 		
-		showMenu();
+		new StoreScreen(mystore, mycart);
 	}
 }
